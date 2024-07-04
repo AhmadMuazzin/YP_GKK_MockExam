@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod
+  namespace: qq2
+spec:
+  automountServiceAccountToken: false
+  containers:
+    - name: nginx
+      image: nginx
+      resources:
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+          ephemeral-storage: "1Gi"
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
+      volumeMounts:
+        - mountPath: /data
+          name: data-volume
+          readOnly: true
+  volumes:
+    - name: data-volume
+      persistentVolumeClaim:
+        claimName: podpvc
